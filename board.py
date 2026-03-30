@@ -21,7 +21,7 @@ class Board:
         print('    0   1   2\n  +---+---+---+');
         for i, row in enumerate(self.board):
             for j, cell in enumerate(row):
-                if not j: print(i, end=' ')
+                if not j: print(i, end=' ');
                 print('|', constants.map[cell], end=' ');
             print('|');
             print('  +---+---+---+');
