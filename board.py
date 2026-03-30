@@ -18,12 +18,13 @@ class Board:
     def get(self, x: int, y: int) -> int | None: return self.board[y][x];
 
     def print(self) -> None:
-        print('+---+---+---+');
-        for row in self.board:
-            for cell in row:
+        print('    0   1   2\n  +---+---+---+');
+        for i, row in enumerate(self.board):
+            for j, cell in enumerate(row):
+                if (j == 0): print(i, end=' ')
                 print('|', constants.map[cell], end=' ');
             print('|');
-            print('+---+---+---+');
+            print('  +---+---+---+');
 
     def place(self, vec: Vector2, element: int) -> Result:
         if self.is_filled(vec): 
