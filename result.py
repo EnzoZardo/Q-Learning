@@ -9,4 +9,4 @@ class Success(Result):
     def __init__(self, value: object = {}) -> None: super().__init__(True, value);
 
 class Error(Result):
-    def __init__(self, message: str) -> None: super().__init__(False, message = message);
+    def __init__(self, message: str = '') -> None: super().__init__(False, message = message);

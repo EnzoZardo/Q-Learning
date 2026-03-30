@@ -1,11 +1,10 @@
-import random
-
-from board import Board
-import constants
 from coordinates import Coordinates
 from result import Error, Result
 from trainer import QLearning
 from vector2 import Vector2
+from board import Board
+import constants
+import random
 
 # TODO: tem muitos jeitos melhores e mais performáticos de fazer isso, pensar depois
 
@@ -23,7 +22,7 @@ class Game:
         self.player: int = constants.empty;
 
     def play_after_training(self) -> None:
-        print('>> Aguarde o treinamento da IA...\n>> Ela vai jogar', self.q_learn.max_episodes, 'partidas em pouco tempinho...');
+        print('>> Aguarde o treinamento da IA...\n>> Ela vai jogar', self.q_learn.max_episodes, 'partidas rapidinho...');
         self.train();
         print('-' * 20);
         print('>> Você estará jogando com um agente que\n>> venceu', self.q_learn.win_count, 'partidas em', self.q_learn.count);
@@ -33,10 +32,10 @@ class Game:
         while not self.board.has_victory() and not self.board.has_stalemate():
             self.board.print()
             player = constants.x;
-            played_result: Result = Error('');
+            played_result: Result = Error();
             while played_result.failure:
                 if played_result.message: print(played_result.message);
-                coord_result: Result = Error('');
+                coord_result: Result = Error();
                 while coord_result.failure:
                     if coord_result.message: print(coord_result.message);
                     coord_result = coordinates.input();
@@ -45,6 +44,7 @@ class Game:
                     played_result = self.board.place(coord, player);
             
             if self.board.has_victory() or self.board.has_stalemate():
+                self.board.print();
                 break;
             
             player = constants.o;
@@ -53,6 +53,7 @@ class Game:
             self.board.place(coord, player);
 
             if self.board.has_victory() or self.board.has_stalemate():
+                self.board.print();
                 break;
             
             self.q_learn.after();
@@ -64,14 +65,12 @@ class Game:
         player: int = constants.empty;
         while self.q_learn.proceed():
             while not self.board.has_victory() and not self.board.has_stalemate():
-                # X realiza sua jogada
                 player = constants.x;
                 self.board.place(random.choice(self.board.get_empty()), player);
 
                 if self.board.has_victory() or self.board.has_stalemate():
                     break;
 
-                # O realiza sua jogada
                 player = constants.o;
                 self.q_learn.before();
                 coord: Vector2 = self.q_learn.choose();
